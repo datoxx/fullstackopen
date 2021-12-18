@@ -1,0 +1,9 @@
+
+
+browser->server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+server-->browser: Status Code: 201 
+
+note over browser:
+ the contents of which are manipulated with
+ JavaScript that executes in the browser
+end note

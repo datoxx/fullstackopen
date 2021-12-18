@@ -1,0 +1,9 @@
+
+
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa
+server-->browser: text/html
+
+note over browser:
+ the contents of which are manipulated with
+ JavaScript that executes in the browser
+end note
