@@ -25,7 +25,7 @@ function App() {
   return (
     <div >
      <h1>give feedback</h1>
-     
+
      <Button vote={goodScore} name={"good"} />
      <Button vote={neutralScore} name={"neutral"} />
      <Button vote={bedScore} name={"bad"} />
@@ -72,14 +72,18 @@ const Button = ({vote, name}) => {
 
 const Score = ({number, name}) => {
   return (
-    <div>{name} {number}</div>
+    <div>
+      <table> 
+        <tbody>
+          <tr>
+            <td>{name}</td>  
+            <td>{number}</td> 
+          </tr>
+        </tbody>
+      </table>
+    </div>
   );
 }
-
-
-
-
-
 
 export default App;
 
