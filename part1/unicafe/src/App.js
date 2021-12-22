@@ -25,19 +25,43 @@ function App() {
   return (
     <div >
      <h1>give feedback</h1>
+     
      <Button vote={goodScore} name={"good"} />
      <Button vote={neutralScore} name={"neutral"} />
      <Button vote={bedScore} name={"bad"} />
 
     <h2>statistics</h2>
-    <Score number={good} name={"good"}/>
-    <Score number={neutral } name={"neutral"} />
-    <Score number={bad} name={"bad"} />
-    <Score number={allScore} name={"all"} />
-    <Score number={(good - bad) / allScore} name={"average"} />
-    <Score number={(good / allScore) * 100 + " %"} name={"positive"} />
+    
+    <Statistics 
+      good={good} 
+      neutral={neutral} 
+      bad={bad} 
+      allScore={allScore}
+    />
+
     </div>
   );
+}
+
+
+const Statistics = ({good, neutral, bad, allScore}) => {
+  if(allScore >= 1) {
+    return(
+      <div>
+        <Score number={good} name={"good"}/>
+        <Score number={neutral } name={"neutral"} />
+        <Score number={bad} name={"bad"} />
+        <Score number={allScore} name={"all"} />
+        <Score number={(good - bad) / allScore} name={"average"} />
+        <Score number={(good / allScore) * 100 + " %"} name={"positive"} />
+      </div>
+    );
+  }
+
+  return (
+    <div>No feedback given</div>
+  );
+
 }
 
 const Button = ({vote, name}) => {
