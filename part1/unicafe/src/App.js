@@ -5,18 +5,37 @@ function App() {
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
+  const [allScore, setAllScore] = useState(0)
+
+  const goodScore = () => {
+    setAllScore(allScore + 1)
+    setGood(good + 1)
+  }
+
+  const neutralScore = () => {
+    setAllScore(allScore + 1)
+    setNeutral(neutral + 1)
+  }
+
+  const bedScore = () => {
+    setAllScore(allScore + 1)
+    setBad(bad + 1)
+  }
 
   return (
     <div >
      <h1>give feedback</h1>
-     <Button vote={() => setGood(good + 1)} name={"good"} />
-     <Button vote={() => setNeutral(neutral + 1)} name={"neutral"} />
-     <Button vote={() => setBad(bad + 1)} name={"bad"} />
+     <Button vote={goodScore} name={"good"} />
+     <Button vote={neutralScore} name={"neutral"} />
+     <Button vote={bedScore} name={"bad"} />
 
     <h2>statistics</h2>
     <Score number={good} name={"good"}/>
     <Score number={neutral } name={"neutral"} />
     <Score number={bad} name={"bad"} />
+    <Score number={allScore} name={"all"} />
+    <Score number={(good - bad) / allScore} name={"average"} />
+    <Score number={(good / allScore) * 100 + " %"} name={"positive"} />
     </div>
   );
 }
