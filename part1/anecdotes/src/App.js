@@ -19,20 +19,47 @@ const App = () => {
     'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.',
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients'
   ]
-   
+
+  const number = [43, 14, 35, 16, 70, 83, 29, 5, 4, 111, 17, 81, 20, 93, 5, 76]
+
+  const copyNam = [...number];
+
   const [selected, setSelected] = useState(0)
+  const [vote, setVote] = useState(copyNam[0])
 
   let randomIndex = Math.floor(Math.random() * anecdotes.length);
 
   const nexAnecdote = () => {
+    setVote(copyNam[randomIndex])
     setSelected(randomIndex)
+  }
+
+  const voteButton = () => {
+    if(number[selected] === vote ) {
+      setVote(vote + 1)
+    } 
+
+    
   }
 
   return (
     <div>
-      <h1>{anecdotes[selected]}</h1>
+      <Text anecdotes={anecdotes} vote={vote} selected={selected} />
       <Button click={nexAnecdote} name={"next anecdote"} />
+      <Button click={voteButton} name={"give vote"} />
+      <h2>Anecdote with most votes</h2>
+      <h1>Better train people and risk they leave - than do nothing and risk they stay.</h1>
+      <h2>has 111 votes</h2>
     </div>
+  );
+}
+
+const Text = ({anecdotes, vote, selected}) => {
+  return(
+    <>
+      <h1>{anecdotes[selected]}</h1>
+      <h2>has {vote} votes</h2>
+    </>
   );
 }
 
@@ -42,4 +69,4 @@ const Button = ({click, name}) => {
   );
 }
 
-export default App
+export default App 
