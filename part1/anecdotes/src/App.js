@@ -27,6 +27,7 @@ const App = () => {
   const [selected, setSelected] = useState(0)
   const [vote, setVote] = useState(copyNam[0])
 
+
   let randomIndex = Math.floor(Math.random() * anecdotes.length);
 
   const nexAnecdote = () => {
