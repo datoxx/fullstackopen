@@ -46,15 +46,13 @@ const App = () => {
     }
   ]
 
-
-
   return (
     <div>
       <h1>Web development curriculum</h1>
       <Course course={courses[0]} />
       <Course course={courses[1]} />
     </div>
-  )
+  );
 }
 
 const Course =({course}) => {
@@ -78,7 +76,7 @@ const Content = ({course}) => {
     <div>
      {course.parts.map(item => 
        <Part key={item.id} part={item} />
-      )}
+      ) }
     </div>
   );
 }
