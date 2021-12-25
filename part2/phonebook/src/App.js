@@ -3,13 +3,13 @@ import List from "./Components/List"
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '34-44-43323456', id: 1 }
+    { name: 'Arto Hellas', number: '34-44-43323456', id: 1 },
+    { name: 'Mary Poppendieck', number: '39-23-6423122', id: 2 }
   ]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
-
-
-
+  const [filterText, setFilterText] = useState('')
+  
   const addName = (e) => {
     e.preventDefault()
     const nameObject = {
@@ -44,10 +44,26 @@ const App = () => {
     setNewNumber(e.target.value)
   }
 
+  const handleFilterChanges = (e) => {
+    setFilterText(e.target.value.toLowerCase())
+  }
+
+
+  const displayList = filterText === '' 
+  ? persons 
+  : persons.filter(list => list.name.toLowerCase().includes(filterText))
+
 
   return (
     <div>
-      <h2>Phonebook</h2>
+      <h1>Phonebook</h1>
+      <div>
+        filter : <input 
+          value={ filterText }
+          onChange={handleFilterChanges}
+        />
+      </div>
+      <h2>add a new</h2>
       <form onSubmit={addName}>
         <div>
           name: <input
@@ -67,7 +83,7 @@ const App = () => {
       </form>
       <h2>Numbers</h2>
       <ul>
-        {persons.map(list => 
+        {displayList.map(list => 
           <List key={list.id} list={list} />
           )}
       </ul>
