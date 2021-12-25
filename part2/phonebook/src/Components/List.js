@@ -2,7 +2,7 @@ import React from 'react'
 
 const List = ({list}) => {
     return ( 
-        <li>{list.name}</li>
+        <li>{list.name} {list.number}</li>
      );
 }
  
