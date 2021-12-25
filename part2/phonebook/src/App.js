@@ -3,7 +3,7 @@ import List from "./Components/List"
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas' }
+    { name: 'Arto Hellas', id: 1 }
   ]) 
   const [newName, setNewName] = useState('')
 
@@ -12,11 +12,20 @@ const App = () => {
   const addName = (e) => {
     e.preventDefault()
     const nameObject = {
-      name: newName
+      name: newName,
+      id: persons.length + 1
     }
 
-    setPersons(persons.concat(nameObject))
-    setNewName(" ")
+    persons.forEach(nameObj => {
+      if(nameObj.name === nameObject.name) {
+        alert(`${nameObject.name} is already added to phonebook`)
+        setPersons(persons)
+      } else {
+        setPersons(persons.concat(nameObject))
+      }
+    });
+    
+    setNewName("")
   }
 
 
@@ -42,7 +51,7 @@ const App = () => {
       <h2>Numbers</h2>
       <ul>
         {persons.map(list => 
-          <List key={list.name} list={list} />
+          <List key={list.id} list={list} />
           )}
       </ul>
     </div>
