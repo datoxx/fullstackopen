@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
-import List from "./Components/List"
+import Filter from "./Components/Filter"
+import PersonForm from "./Components/PersonForm"
+import Persons  from "./Components/Persons"
 
 const App = () => {
   // list  of number an name 
@@ -68,37 +70,20 @@ const App = () => {
 
   return (
     <div>
+     { /*this filter input search phone books*/}
       <h1>Phonebook</h1>
-      <div>
-        filter : <input 
-          value={ filterText }
-          onChange={handleFilterChanges}
-        />
-      </div>
+      <Filter filterText={ filterText } handleFilterChanges={handleFilterChanges} />
+
+      { /*this components has form's witch has two input name and number witch creates new phone books*/}
       <h2>add a new</h2>
-      <form onSubmit={addName}>
-        <div>
-          name: <input
-           value={newName}
-           onChange={handleNameChange}
-          />
-        </div>
-        <div>
-          number: <input
-           value={newNumber}
-           onChange={handleNumberChange}
-          />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <PersonForm 
+        addName={addName} 
+        newName={newName} handleNameChange={handleNameChange}
+        newNumber={newNumber} handleNumberChange={handleNumberChange}
+       />
+        { /*this components rendering all phone book list and display*/}
       <h2>Numbers</h2>
-      <ul>
-        {displayList.map(list => 
-          <List key={list.id} list={list} />
-          )}
-      </ul>
+      <Persons displayList={displayList} />
     </div>
   )
 }
