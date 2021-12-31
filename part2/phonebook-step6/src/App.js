@@ -58,6 +58,21 @@ const App = () => {
     });
   }
 
+  const handleDelete = (id) => {
+    const copyNote = [...persons];
+    const newArray = copyNote.filter(n => n.id !== id)
+
+
+    phoneServices
+    .phoneDelete(id, newArray)
+    .then(response => {
+      console.log(response)
+      window.confirm(`Do you really want to delete?`);
+      setPersons(persons.filter(person => person.id !== id ))
+    })
+    
+  }
+
   // name input's event handler for change input value
   const handleNameChange = (e) => {
     setNewName(e.target.value)
@@ -96,7 +111,7 @@ const App = () => {
        />
         { /*this components rendering all phone book list and display*/}
       <h2>Numbers</h2>
-      <Persons displayList={displayList} />
+      <Persons displayList={displayList} handleDelete={handleDelete} />
     </div>
   )
 }
