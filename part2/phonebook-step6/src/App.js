@@ -59,12 +59,8 @@ const App = () => {
   }
 
   const handleDelete = (id) => {
-    const copyNote = [...persons];
-    const newArray = copyNote.filter(n => n.id !== id)
-
-
     phoneServices
-    .phoneDelete(id, newArray)
+    .phoneDelete(id)
     .then(response => {
       console.log(response)
       window.confirm(`Do you really want to delete?`);
