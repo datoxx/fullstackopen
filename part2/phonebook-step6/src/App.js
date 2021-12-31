@@ -15,8 +15,7 @@ const App = () => {
   const [filterText, setFilterText] = useState('')
 
   // fetch date from db.json file nad put persons's array.
-  useEffect(() => {
-    
+  useEffect(() => {  
     axios
       .get('http://localhost:3001/persons')
       .then(response => {
@@ -31,9 +30,9 @@ const App = () => {
     e.preventDefault()
     // new phone book object create
     const nameObject = {
+      id: persons.length + 1,
       name: newName,
-      number: newNumber,
-      id: persons.length + 1
+      number: newNumber
     }
 
     // check if array has  name or number which user typing, and pop up alert
@@ -47,9 +46,14 @@ const App = () => {
           setNewNumber("")
           return setPersons(persons);
       } else {
-          setPersons(persons.concat(nameObject))
-          setNewName("")
-          setNewNumber("")
+          axios
+            .post('http://localhost:3001/persons', nameObject)
+            .then(response => {
+              console.log(response);
+              setPersons(persons.concat(response.data))
+              setNewName("")
+              setNewNumber("")
+            })
       }
     });
   }
