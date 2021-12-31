@@ -3,6 +3,7 @@ import Filter from "./Components/Filter"
 import PersonForm from "./Components/PersonForm"
 import Persons  from "./Components/Persons"
 import axios from 'axios'
+import phoneServices from "./Components/services"
 
 const App = () => {
   // list  of number an name 
@@ -16,10 +17,10 @@ const App = () => {
 
   // fetch date from db.json file nad put persons's array.
   useEffect(() => {  
-    axios
-      .get('http://localhost:3001/persons')
+    phoneServices
+      .getAll()
       .then(response => {
-        setPersons(response.data)
+        setPersons(response)
       })
     
   }, [])
@@ -46,11 +47,10 @@ const App = () => {
           setNewNumber("")
           return setPersons(persons);
       } else {
-          axios
-            .post('http://localhost:3001/persons', nameObject)
+        phoneServices
+          .create(nameObject)
             .then(response => {
-              console.log(response);
-              setPersons(persons.concat(response.data))
+              setPersons(persons.concat(response))
               setNewName("")
               setNewNumber("")
             })
