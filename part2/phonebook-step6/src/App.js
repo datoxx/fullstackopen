@@ -37,30 +37,26 @@ const App = () => {
     }
 
     // check if array has  name or number which user typing, and pop up alert
-    persons.map(nameObj => {
-      if(nameObj.name === nameObject.name) {
-         const phoneBook = persons.find(n => n.name === nameObject.name);
-         const changeNumber = {...phoneBook, number: nameObject.number}
-       return  (
-          phoneServices
-          .update(nameObj.id, changeNumber)
-          .then(response => {
-            console.log(response);
-            setPersons(persons.map(person => person.name !== changeNumber.name ? person : response))
-          })
-        );
-      } 
+    phoneServices
+    .create(nameObject)
+    .then(response => {
+      persons.forEach(nameObj => {
+        if(nameObj.name === nameObject.name) {
+          alert(`${nameObject.name} is already added to phonebook`)
+          setNewName("")
+         return setPersons(persons)
+        } else {
+          setNewName("")
+          setNewNumber("")
+          return setPersons(persons.concat(response))
+        }
+      })
     })
-    
-   return (
-     phoneServices
-          .create(nameObject)
-            .then(response => {
-              setPersons(persons.concat(response))
-              setNewName("")
-              setNewNumber("")
-            })
-    );
+    .catch(rej => {
+      console.log(rej);
+
+    })
+          
   }
 
   const handleDelete = (id) => {
