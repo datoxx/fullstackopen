@@ -31,31 +31,36 @@ const App = () => {
     e.preventDefault()
     // new phone book object create
     const nameObject = {
-      id: persons.length + 1,
       name: newName,
-      number: newNumber
+      number: newNumber,
+      id: persons.length + 1
     }
 
     // check if array has  name or number which user typing, and pop up alert
-    persons.forEach(nameObj => {
+    persons.map(nameObj => {
       if(nameObj.name === nameObject.name) {
-          alert(`${nameObject.name} is already added to phonebook`)
-          setNewName("")
-          return setPersons(persons);
-      } else if(nameObj.number === nameObject.number) {
-          alert(`${nameObject.number} is already added to phonebook`)
-          setNewNumber("")
-          return setPersons(persons);
-      } else {
-        phoneServices
+         const phoneBook = persons.find(n => n.name === nameObject.name);
+         const changeNumber = {...phoneBook, number: nameObject.number}
+       return  (
+          phoneServices
+          .update(nameObj.id, changeNumber)
+          .then(response => {
+            console.log(response);
+            setPersons(persons.map(person => person.name !== changeNumber.name ? person : response))
+          })
+        );
+      } 
+    })
+    
+   return (
+     phoneServices
           .create(nameObject)
             .then(response => {
               setPersons(persons.concat(response))
               setNewName("")
               setNewNumber("")
             })
-      }
-    });
+    );
   }
 
   const handleDelete = (id) => {
