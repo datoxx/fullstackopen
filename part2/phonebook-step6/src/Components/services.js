@@ -21,4 +21,5 @@ const phoneDelete = id => {
 
 
 
-export default { getAll, create, phoneDelete } 
+
+export default { getAll, create, phoneDelete }

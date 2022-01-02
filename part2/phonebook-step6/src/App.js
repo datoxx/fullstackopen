@@ -2,6 +2,7 @@ import React, { useState, useEffect} from 'react'
 import Persons  from "./Components/Persons"
 import PersonForm from "./Components/PersonForm"
 import Filter from "./Components/Filter"
+import Notification from "./Components/Notification"
 import phoneServices from "./Components/services"
 
 const App = () => {
@@ -14,6 +15,8 @@ const App = () => {
   // filter's inputs value
   const [filterText, setFilterText] = useState('')
 
+  const [message, setMessage] = useState(null)
+
   // fetch date from db.json file nad put persons's array.
   useEffect(() => {  
     phoneServices
@@ -24,8 +27,13 @@ const App = () => {
     
   }, [])
   
-  // form's event handle, this function adds new phone book  object in initial array
-  // also this function includes alert function, if array's has name or number which user typing in from, alarm tells about it 
+  const popup = (msg, type ='success') => {
+    setMessage({msg, type})
+    setTimeout(() => {
+      setMessage(null)
+    }, 3000)
+  }
+
   const addName = (e) => {
     e.preventDefault()
       phoneServices
@@ -37,23 +45,27 @@ const App = () => {
           setPersons(persons.concat(response))
           setNewName("")
           setNewNumber("")
+          popup(`Added ${response.name}`)
       })
       .catch(error => {
         console.log(error);
+        popup(`${error.response.data.error}`, 'error')
       })
   }
 
   const handleDelete = (id) => {
     const phoneDelete = persons.find(p => p.id === id)
-    const ok = window.confirm(`Delete ${phoneDelete.name}`)
-    if(ok) {
+    const yes = window.confirm(`Delete ${phoneDelete.name}`)
+    if(yes) {
       phoneServices
       .phoneDelete(id)
       .then(response => {
         setPersons(persons.filter(person => person.id !== id ))
+        popup(`Deleted ${phoneDelete.name}`)
       })
       .catch(() => {
         setPersons(persons.filter(person => person.id !== id ))
+        popup(`${phoneDelete.name} had already been removed`, 'error')
       })
     }
   }
@@ -96,6 +108,7 @@ const App = () => {
        />
         { /*this components rendering all phone book list and display*/}
       <h2>Numbers</h2>
+      <Notification message ={message}/>
       <Persons displayList={displayList} handleDelete={handleDelete} />
     </div>
   )
