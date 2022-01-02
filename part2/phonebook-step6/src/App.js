@@ -1,8 +1,7 @@
 import React, { useState, useEffect} from 'react'
-import Filter from "./Components/Filter"
-import PersonForm from "./Components/PersonForm"
 import Persons  from "./Components/Persons"
-import axios from 'axios'
+import PersonForm from "./Components/PersonForm"
+import Filter from "./Components/Filter"
 import phoneServices from "./Components/services"
 
 const App = () => {
@@ -29,45 +28,54 @@ const App = () => {
   // also this function includes alert function, if array's has name or number which user typing in from, alarm tells about it 
   const addName = (e) => {
     e.preventDefault()
-    // new phone book object create
-    const nameObject = {
-      name: newName,
-      number: newNumber,
-      id: persons.length + 1
-    }
 
-    // check if array has  name or number which user typing, and pop up alert
-    phoneServices
-    .create(nameObject)
-    .then(response => {
-      persons.forEach(nameObj => {
-        if(nameObj.name === nameObject.name) {
-          alert(`${nameObject.name} is already added to phonebook`)
-          setNewName("")
-         return setPersons(persons)
-        } else {
+    const phoneObj = persons.find(n => n.name === newName)
+    console.log(phoneObj);
+    if(phoneObj) {
+      const ok = window.confirm(`${phoneObj.name} already in phonebook, replace the old number with new one?`)
+      if(ok) {
+        phoneServices
+        .phoneUpdate(phoneObj.id, {
+          name: phoneObj.name,
+          number: newNumber
+        })
+        .then(response => {
+          setPersons(persons.map(person => person.id !== phoneObj.id ? person : response))
           setNewName("")
           setNewNumber("")
-          return setPersons(persons.concat(response))
-        }
+        })
+      }
+    } else {
+      phoneServices
+      .create({
+        name: newName,
+        number: newNumber
       })
-    })
-    .catch(rej => {
-      console.log(rej);
-
-    })
-          
+      .then(response => {
+          setPersons(persons.concat(response))
+          setNewName("")
+          setNewNumber("")
+      })
+      .catch(error => {
+        console.log(error);
+      })
+    } 
   }
 
   const handleDelete = (id) => {
-    phoneServices
-    .phoneDelete(id)
-    .then(response => {
-      console.log(response)
-      window.confirm(`Do you really want to delete?`);
-      setPersons(persons.filter(person => person.id !== id ))
-    })
-    
+    const phoneDelete = persons.find(p => p.id === id)
+    const ok = window.confirm(`Delete ${phoneDelete.name}`)
+    if(ok) {
+      phoneServices
+      .phoneDelete(id)
+      .then(response => {
+        setPersons(persons.filter(person => person.id !== id ))
+        alert(`deleted ${phoneDelete.name}`)
+      })
+      .catch(() => {
+        setPersons(persons.filter(person => person.id !== id ))
+      })
+    }
   }
 
   // name input's event handler for change input value
