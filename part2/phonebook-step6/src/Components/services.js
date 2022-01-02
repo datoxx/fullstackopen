@@ -19,13 +19,6 @@ const phoneDelete = id => {
     return request.then(response => response.data)
 }
 
-const phoneUpdate = (id, newObj) => {
-    const request = axios.delete(`${baseUrl}/${id}`, newObj)
-    return request.then(response => response.data)
-}
 
 
-
-
-
-export default { getAll, create, phoneDelete, phoneUpdate }
+export default { getAll, create, phoneDelete } 

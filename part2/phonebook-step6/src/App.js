@@ -28,24 +28,6 @@ const App = () => {
   // also this function includes alert function, if array's has name or number which user typing in from, alarm tells about it 
   const addName = (e) => {
     e.preventDefault()
-
-    const phoneObj = persons.find(n => n.name === newName)
-    console.log(phoneObj);
-    if(phoneObj) {
-      const ok = window.confirm(`${phoneObj.name} already in phonebook, replace the old number with new one?`)
-      if(ok) {
-        phoneServices
-        .phoneUpdate(phoneObj.id, {
-          name: phoneObj.name,
-          number: newNumber
-        })
-        .then(response => {
-          setPersons(persons.map(person => person.id !== phoneObj.id ? person : response))
-          setNewName("")
-          setNewNumber("")
-        })
-      }
-    } else {
       phoneServices
       .create({
         name: newName,
@@ -59,7 +41,6 @@ const App = () => {
       .catch(error => {
         console.log(error);
       })
-    } 
   }
 
   const handleDelete = (id) => {
@@ -70,7 +51,6 @@ const App = () => {
       .phoneDelete(id)
       .then(response => {
         setPersons(persons.filter(person => person.id !== id ))
-        alert(`deleted ${phoneDelete.name}`)
       })
       .catch(() => {
         setPersons(persons.filter(person => person.id !== id ))
