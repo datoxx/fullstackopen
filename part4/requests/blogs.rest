@@ -1,0 +1,10 @@
+POST http://localhost:3003/api/blogs
+content-type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imlub21hIiwiaWQiOiI2MjBjZThhYWJiNDJhZTNhMmU2NGIzOWQiLCJpYXQiOjE2NDUwMTMxNjh9.Oa_PKdpUzNufuBIlPjcEtm08-WNexx2Q142SkM2TXaU
+
+{
+  "title": "blog7777",
+  "author": "inoma500",
+  "url": "http://localhost:3003/api/blogs",
+  "likes": "77002"
+}
