@@ -1,7 +1,7 @@
 import loginService from '../services/login'
 import blogService from '../services/blogs'
 
-const LoginForm = ({ setUser, setErrorMessage, username, setUsername,password, setPassword}) => {
+const LoginForm = ({ user, setUser, setMessage, username, setUsername, password, setPassword}) => {
 
     const handleLogin = async (e) => {
         e.preventDefault()
@@ -15,9 +15,10 @@ const LoginForm = ({ setUser, setErrorMessage, username, setUsername,password, s
           setUsername("")
           setPassword("")
         } catch (exception){
-          setErrorMessage('Wrong credentials')
+          console.log(exception)
+          setMessage('Wrong credentials')
           setTimeout(() => {
-            setErrorMessage(null)
+            setMessage(null)
           }, 5000)
         }
       }
@@ -48,6 +49,8 @@ const LoginForm = ({ setUser, setErrorMessage, username, setUsername,password, s
     
     return (
         <div>
+           <h2>Log in to application</h2>
+
             {loginForm()}
         </div> 
     );

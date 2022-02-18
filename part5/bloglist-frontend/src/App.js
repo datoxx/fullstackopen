@@ -9,7 +9,7 @@ const App = () => {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [blogs, setBlogs] = useState([])
-  const [errorMessage, setErrorMessage] = useState(null)
+  const [message, setMessage] = useState(null)
   const [user, setUser] = useState(null)
 
   useEffect(() => {
@@ -36,15 +36,15 @@ const App = () => {
   return (
     <div>
       
-      <h2>blogs</h2>
 
-      <Notification message={errorMessage}/>
+      <Notification  message={message}/>
 
       {
       user === null 
         ? <LoginForm 
+           user={user}
            setUser={setUser}
-           setErrorMessage={setErrorMessage}
+           setErrorMessage={setMessage}
            username ={username}
            setUsername={setUsername}
            password={password}
@@ -55,9 +55,10 @@ const App = () => {
         <p>{user.name} logged-in</p>  
         <button onClick={handleUserLogOut}>logout</button>
 
-        <BlogForm  blogs={blogs}  setBlogs={setBlogs} />
+        <BlogForm  blogs={blogs}  setBlogs={setBlogs} setMessage={setMessage} />
+        <h2>blogs</h2>
         <Blogs blogs={blogs} />
-        
+
         </div> 
       }
     </div>
