@@ -1,7 +1,12 @@
+import { useState } from "react";
+
 import loginService from '../services/login'
 import blogService from '../services/blogs'
 
-const LoginForm = ({ user, setUser, setMessage, username, setUsername, password, setPassword}) => {
+const LoginForm = ({ setUser, setMessage}) => {
+
+    const [username, setUsername] = useState("")
+    const [password, setPassword] = useState("")
 
     const handleLogin = async (e) => {
         e.preventDefault()
@@ -15,7 +20,6 @@ const LoginForm = ({ user, setUser, setMessage, username, setUsername, password,
           setUsername("")
           setPassword("")
         } catch (exception){
-          console.log(exception)
           setMessage('Wrong credentials')
           setTimeout(() => {
             setMessage(null)
@@ -26,6 +30,7 @@ const LoginForm = ({ user, setUser, setMessage, username, setUsername, password,
     const loginForm = () => (
         <form onSubmit={handleLogin}>
           <div>
+            <h2>Log in to application</h2>
             username
             <input 
               type="text" 
@@ -49,8 +54,6 @@ const LoginForm = ({ user, setUser, setMessage, username, setUsername, password,
     
     return (
         <div>
-           <h2>Log in to application</h2>
-
             {loginForm()}
         </div> 
     );

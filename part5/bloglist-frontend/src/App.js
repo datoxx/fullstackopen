@@ -1,13 +1,13 @@
 import React, { useState, useEffect} from 'react'
 import Notification from './components/Notification'
-import blogService from './services/blogs'
 import LoginForm from './components/LoginForm'
 import BlogForm  from './components/BlogForm'
 import Blogs from './components/Blogs'
+import Toggleable from './components/Toggleable'
+import blogService from './services/blogs'
+
 
 const App = () => {
-  const [username, setUsername] = useState("")
-  const [password, setPassword] = useState("")
   const [blogs, setBlogs] = useState([])
   const [message, setMessage] = useState(null)
   const [user, setUser] = useState(null)
@@ -28,6 +28,8 @@ const App = () => {
     }
   }, [])
 
+
+
   const handleUserLogOut = () => {
     window.localStorage.removeItem('loggedBlogAppUser')
     setUser(null)
@@ -36,29 +38,28 @@ const App = () => {
   return (
     <div>
       
-
       <Notification  message={message}/>
 
       {
-      user === null 
-        ? <LoginForm 
-           user={user}
+      user === null ?
+       <Toggleable buttonLabel="login">
+         <LoginForm 
            setUser={setUser}
            setErrorMessage={setMessage}
-           username ={username}
-           setUsername={setUsername}
-           password={password}
-           setPassword={setPassword}
-           /> : 
+           />
+      </Toggleable> : 
         <div>
 
-        <p>{user.name} logged-in</p>  
+        <p>{user.name} logged-in</p> 
         <button onClick={handleUserLogOut}>logout</button>
 
+        <Toggleable buttonLabel="create blog">
         <BlogForm  blogs={blogs}  setBlogs={setBlogs} setMessage={setMessage} />
+        </Toggleable>
+
         <h2>blogs</h2>
         <Blogs blogs={blogs} />
-
+        
         </div> 
       }
     </div>
