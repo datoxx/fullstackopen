@@ -80,10 +80,9 @@ blogsRouter.delete('/:id', async(request, response) => {
   response.status(204).end()
 })
 
-blogsRouter.put('/api/blogs/:id', async(request, response) => {
-  const body = request.body
-
-  const upDateBlog = await Blog.findByIdAndUpdate(request.params.id, body, {new: true})  
+blogsRouter.put('/:id', async (request, response) => {
+  const blog = request.body
+  const upDateBlog = await Blog.findByIdAndUpdate(request.params.id, blog, {new: true})  
   response.json(upDateBlog)
 })
 
