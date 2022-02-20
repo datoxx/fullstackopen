@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 
-const Blog = ({blog}) => {
+const Blog = ({blog, likeBlog}) => {
   const [details, setDetails] = useState(false);
   const [buttonLabel, setButtonLabel] = useState('view');
   const showDetails = { display: details ? '' : 'none' };
@@ -14,9 +14,6 @@ const Blog = ({blog}) => {
     marginBottom: 5
   }
 
-  const likeBlog = () => {
-
-  }
 
   const toggleDetails = () => {
     setDetails(!details)
@@ -30,8 +27,8 @@ return(
      <div style={showDetails}>
         <a href={blog.url}>{blog.url}</a>
         <p>
-          likes
-          <button onClick={likeBlog}>like</button>
+          likes {blog.likes}
+          <button onClick={() => likeBlog(blog.id)}>like</button>
         </p>
         <p>{blog.user.name}</p>
      </div>

@@ -1,16 +1,18 @@
 import React, { useState, useEffect} from 'react'
+import Blog from './components/Blog'
 import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
 import BlogForm  from './components/BlogForm'
-import Blogs from './components/Blogs'
 import Toggleable from './components/Toggleable'
 import blogService from './services/blogs'
+
 
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [message, setMessage] = useState(null)
   const [user, setUser] = useState(null)
+  
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -30,10 +32,31 @@ const App = () => {
 
 
 
+  const likeBlog = async (id) => {
+    const toLike = blogs.find(b => b.id === id )
+    const newObject = {
+      ...toLike,
+      likes: (toLike.likes||0) + 1,
+      user: toLike.user.id
+    }
+
+    const updatedBlog = await blogService.update(newObject.id, newObject)
+    const updatedBlogs = blogs.map(b => b.id === id ? updatedBlog : b)
+    setBlogs(updatedBlogs)
+}
+
   const handleUserLogOut = () => {
     window.localStorage.removeItem('loggedBlogAppUser')
     setUser(null)
   }
+
+  const renderBlogs = blogs.map((blog) => (
+    <Blog  
+      likeBlog ={likeBlog}  
+      key={blog.id} 
+      blog={blog}  
+    /> 
+  ))
 
   return (
     <div>
@@ -58,8 +81,7 @@ const App = () => {
         </Toggleable>
 
         <h2>blogs</h2>
-        <Blogs blogs={blogs} />
-        
+        {renderBlogs}   
         </div> 
       }
     </div>
