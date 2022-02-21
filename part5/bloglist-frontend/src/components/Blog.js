@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 
 
-const Blog = ({blog, likeBlog}) => {
+const Blog = ({user, blog, likeBlog, removeBlog}) => {
   const [details, setDetails] = useState(false);
   const [buttonLabel, setButtonLabel] = useState('view');
   const showDetails = { display: details ? '' : 'none' };
+  const myBlog = blog.user && user.username === blog.user.username
 
   const blogStyle = {
     paddingTop: 10,
@@ -22,7 +23,7 @@ const Blog = ({blog, likeBlog}) => {
 
 return(
   <div style={blogStyle}>
-     <p> {blog.title} by {blog.author}</p>
+     <p>{blog.title}</p>
      <button onClick={toggleDetails}>{buttonLabel}</button>
      <div style={showDetails}>
         <a href={blog.url}>{blog.url}</a>
@@ -30,7 +31,8 @@ return(
           likes {blog.likes}
           <button onClick={() => likeBlog(blog.id)}>like</button>
         </p>
-        <p>{blog.user.name}</p>
+        <p>{blog.author}</p>
+        {myBlog && <button onClick={() => removeBlog(blog.id)}>remove</button>}
      </div>
   </div>  
 )

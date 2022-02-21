@@ -12,11 +12,11 @@ const App = () => {
   const [blogs, setBlogs] = useState([])
   const [message, setMessage] = useState(null)
   const [user, setUser] = useState(null)
-  
+  const byLikes = (b1, b2) => b2.likes - b1.likes
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
-      setBlogs(blogs)
+      setBlogs(blogs.sort( byLikes))
     )  
   }, [])
 
@@ -31,6 +31,10 @@ const App = () => {
   }, [])
 
 
+  const handleUserLogOut = () => {
+    window.localStorage.removeItem('loggedBlogAppUser')
+    setUser(null)
+  }
 
   const likeBlog = async (id) => {
     const toLike = blogs.find(b => b.id === id )
@@ -41,20 +45,33 @@ const App = () => {
     }
 
     const updatedBlog = await blogService.update(newObject.id, newObject)
-    const updatedBlogs = blogs.map(b => b.id === id ? updatedBlog : b)
+    const updatedBlogs = blogs.map(b => b.id === id ? updatedBlog : b).sort(byLikes)
     setBlogs(updatedBlogs)
-}
-
-  const handleUserLogOut = () => {
-    window.localStorage.removeItem('loggedBlogAppUser')
-    setUser(null)
   }
+
+  
+  const removeBlog = async (id) => {
+    const toRemove = blogs.find(blog => blog.id === id)
+
+    const ok = window.confirm(`remove '${toRemove.title}' by ${toRemove.author}?`)
+
+    if(!ok) return 
+
+    await blogService.remove(id)
+    const updatedBlogs = blogs.filter(blog => blog.id !== id).sort(byLikes)
+    setBlogs(updatedBlogs)
+  }
+
+
+
 
   const renderBlogs = blogs.map((blog) => (
     <Blog  
       likeBlog ={likeBlog}  
+      removeBlog ={removeBlog}
       key={blog.id} 
-      blog={blog}  
+      blog={blog} 
+      user={user} 
     /> 
   ))
 
