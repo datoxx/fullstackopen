@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
@@ -17,7 +17,7 @@ const App = () => {
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs(blogs.sort( byLikes))
-    )  
+    )
   }, [])
 
 
@@ -49,13 +49,13 @@ const App = () => {
     setBlogs(updatedBlogs)
   }
 
-  
+
   const removeBlog = async (id) => {
     const toRemove = blogs.find(blog => blog.id === id)
 
     const ok = window.confirm(`remove '${toRemove.title}' by ${toRemove.author}?`)
 
-    if(!ok) return 
+    if(!ok) return
 
     await blogService.remove(id)
     const updatedBlogs = blogs.filter(blog => blog.id !== id).sort(byLikes)
@@ -66,40 +66,40 @@ const App = () => {
 
 
   const renderBlogs = blogs.map((blog) => (
-    <Blog  
-      likeBlog ={likeBlog}  
+    <Blog
+      likeBlog ={likeBlog}
       removeBlog ={removeBlog}
-      key={blog.id} 
-      blog={blog} 
-      user={user} 
-    /> 
+      key={blog.id}
+      blog={blog}
+      user={user}
+    />
   ))
 
   return (
     <div>
-      
+
       <Notification  message={message}/>
 
       {
-      user === null ?
-       <Toggleable buttonLabel="login">
-         <LoginForm 
-           setUser={setUser}
-           setErrorMessage={setMessage}
-           />
-      </Toggleable> : 
-        <div>
+        user === null ?
+          <Toggleable buttonLabel="login">
+            <LoginForm
+              setUser={setUser}
+              setErrorMessage={setMessage}
+            />
+          </Toggleable> :
+          <div>
 
-        <p>{user.name} logged-in</p> 
-        <button onClick={handleUserLogOut}>logout</button>
+            <p>{user.name} logged-in</p>
+            <button onClick={handleUserLogOut}>logout</button>
 
-        <Toggleable buttonLabel="create blog">
-        <BlogForm  blogs={blogs}  setBlogs={setBlogs} setMessage={setMessage} />
-        </Toggleable>
+            <Toggleable buttonLabel="create blog">
+              <BlogForm  blogs={blogs}  setBlogs={setBlogs} setMessage={setMessage} />
+            </Toggleable>
 
-        <h2>blogs</h2>
-        {renderBlogs}   
-        </div> 
+            <h2>blogs</h2>
+            {renderBlogs}
+          </div>
       }
     </div>
   )

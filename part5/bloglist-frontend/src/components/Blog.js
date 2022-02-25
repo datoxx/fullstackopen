@@ -21,11 +21,11 @@ const Blog = ({user, blog, likeBlog, removeBlog}) => {
     setButtonLabel(details ? "view" : "hide" )
   }
 
-return(
-  <div style={blogStyle}>
-     <p>{blog.title}</p>
-     <button onClick={toggleDetails}>{buttonLabel}</button>
-     <div style={showDetails}>
+  return(
+    <div style={blogStyle}>
+      <p>{blog.title}</p>
+      <button onClick={toggleDetails}>{buttonLabel}</button>
+      <div style={showDetails}>
         <a href={blog.url}>{blog.url}</a>
         <p>
           likes {blog.likes}
@@ -33,10 +33,10 @@ return(
         </p>
         <p>{blog.author}</p>
         {myBlog && <button onClick={() => removeBlog(blog.id)}>remove</button>}
-     </div>
-  </div>  
-)
-  
+      </div>
+    </div>
+  )
+
 }
 
 export default Blog
