@@ -34,18 +34,21 @@ const BlogForm = ({ blogs, setBlogs, setMessage }) => {
         type="text"
         value={title}
         onChange={({ target }) => setTitle(target.value)}
+        required
       />
                 author:
       <input
         type="text"
         value={author}
         onChange={({ target }) => setAuthor(target.value)}
+        required
       />
                 url:
       <input
         type="text"
         value={url}
         onChange={({ target }) => setUrl(target.value)}
+        required
       />
       <button type="submit">create</button>
     </form>
