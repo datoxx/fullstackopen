@@ -5,13 +5,15 @@ import Anecdote from './Anecdote'
 
 
 const AnecdoteList = () => {
-    const anecdotes = useSelector(state => state.sort((a1, a2) => a2.votes - a1.votes))
+    const anecdotes = useSelector(state => state.anecdotes)
     const dispatch = useDispatch()
+
+    const sortedAnecdotes = [...anecdotes].sort((a1, a2) => a2.votes - a1.votes)
 
     return ( 
         <div>
             <h2>Anecdotes</h2>
-            {anecdotes.map(anecdote =>
+            {sortedAnecdotes.map(anecdote =>
                 <Anecdote
                     key = {anecdote.id} 
                     anecdote ={anecdote}
