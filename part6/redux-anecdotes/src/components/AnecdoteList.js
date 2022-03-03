@@ -6,10 +6,11 @@ import Anecdote from './Anecdote'
 
 
 const AnecdoteList = () => {
-    const {anecdotes} = useSelector(state => state)
+    const {anecdotes, filter } = useSelector(state => state)
     const dispatch = useDispatch()
-
-    const sortedAnecdotes = [...anecdotes].sort((a1, a2) => a2.votes - a1.votes)
+    
+    const filterAnecdotes = anecdotes.filter(a => a.content.toLowerCase().includes(filter.toLowerCase()))
+    const sortedAnecdotes = filterAnecdotes.sort((a1, a2) => a2.votes - a1.votes)
 
     const handleVote = anecdote => {
         dispatch(vote(anecdote.id))
