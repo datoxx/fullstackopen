@@ -1,0 +1,49 @@
+{
+  "anecdotes": [
+    {
+      "content": "the app state is in redux store",
+      "votes": 22,
+      "id": 1
+    },
+    {
+      "content": "state changes are made with actions",
+      "votes": 11,
+      "id": 2
+    },
+    {
+      "content": "aba",
+      "votes": 2,
+      "id": 3
+    },
+    {
+      "content": "if you go ",
+      "votes": 5,
+      "id": 4
+    },
+    {
+      "content": "you will go home",
+      "votes": 5,
+      "id": 5
+    },
+    {
+      "content": "my car is hourse",
+      "votes": 2,
+      "id": 6
+    },
+    {
+      "content": "my car is small but fast",
+      "votes": 0,
+      "id": 7
+    },
+    {
+      "content": "gooo",
+      "votes": 2,
+      "id": 8
+    },
+    {
+      "content": "aaaaaaaaa",
+      "votes": 1,
+      "id": 9
+    }
+  ]
+}
