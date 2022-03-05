@@ -2,27 +2,27 @@
   "anecdotes": [
     {
       "content": "the app state is in redux store",
-      "votes": 22,
+      "votes": 59,
       "id": 1
     },
     {
       "content": "state changes are made with actions",
-      "votes": 11,
+      "votes": 38,
       "id": 2
     },
     {
       "content": "aba",
-      "votes": 2,
+      "votes": 3,
       "id": 3
     },
     {
       "content": "if you go ",
-      "votes": 5,
+      "votes": 13,
       "id": 4
     },
     {
       "content": "you will go home",
-      "votes": 5,
+      "votes": 7,
       "id": 5
     },
     {
@@ -44,6 +44,26 @@
       "content": "aaaaaaaaa",
       "votes": 1,
       "id": 9
+    },
+    {
+      "content": "home",
+      "votes": 0,
+      "id": 10
+    },
+    {
+      "content": "www",
+      "votes": 2,
+      "id": 11
+    },
+    {
+      "content": "as",
+      "votes": 0,
+      "id": 12
+    },
+    {
+      "content": "dato",
+      "votes": 0,
+      "id": 13
     }
   ]
 }
