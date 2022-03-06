@@ -1,5 +1,3 @@
-import Footer from './Footer'
-
 const About = () => {
     return ( 
         <div>
@@ -12,7 +10,6 @@ const About = () => {
             An anecdote is "a story with a point."</em>
         
             <p>Software engineering is full of excellent anecdotes, at this app you can find the best and add more.</p>
-            <Footer />
         </div> 
      );
 }
