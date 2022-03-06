@@ -5,6 +5,7 @@ import Menu from './components/Menu'
 import AnecdoteList from './components/AnecdoteList'
 import About from './components/About'
 import CreateNew from './components/CreateNew'
+import Anecdote from './components/Anecdote'
 
 
 
@@ -52,8 +53,9 @@ const App = () => {
     <div> 
       <h1>Software anecdotes</h1>
       <Menu />
-
+      
       <Routes>
+        <Route path='/anecdotes/:id' element={<Anecdote anecdotes={anecdotes} />} />
         <Route path='/' element={<AnecdoteList anecdotes={anecdotes} />} />
         <Route path='/about' element={<About />} />
         <Route path='/create' element={<CreateNew addNew={addNew} />} />   
