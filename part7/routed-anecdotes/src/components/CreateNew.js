@@ -12,9 +12,9 @@ const CreateNew = ({addNew, setNotification}) => {
   const handleSubmit = (e) => {
     e.preventDefault()
     addNew({
-      content: content.value,
-      author: author.value,
-      info: info.value,
+      content: content.fields.value,
+      author: author.fields.value,
+      info: info.fields.value,
       votes: 0
     })
 
@@ -24,23 +24,30 @@ const CreateNew = ({addNew, setNotification}) => {
     navigate('/')
   }
 
+  const forReset = () => {
+    content.reset()
+    author.reset()
+    info.reset()
+  }
+
   return (
     <div>
       <h2>create a new anecdote</h2>
       <form onSubmit={handleSubmit}>
         <div>
           content
-          <input {...content} required />
+          <input {...content.fields} required />
         </div>
         <div>
           author
-          <input {...author} required />
+          <input {...author.fields} required />
         </div>
         <div>
           url for more info
-          <input {...info} required />
+          <input {...info.fields} required />
         </div>
-        <button>create</button>
+        <button type='submit'>create</button>
+        <button onClick={forReset} >reset</button>
       </form>
       <br />
     </div>
