@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import Blog from './components/Blog'
+import { useDispatch } from 'react-redux'
+import { initializeBlogs } from './reducers/blogsReducer'
+import Blogs from './components/Blogs'
 import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
 import BlogForm  from './components/BlogForm'
@@ -8,16 +10,15 @@ import blogService from './services/blogs'
 
 
 
+
 const App = () => {
-  const [blogs, setBlogs] = useState([])
-  const [message, setMessage] = useState(null)
+
+  const dispatch = useDispatch()
   const [user, setUser] = useState(null)
-  const byLikes = (b1, b2) => b2.likes - b1.likes
+  //const byLikes = (b1, b2) => b2.likes - b1.likes
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs(blogs.sort( byLikes))
-    )
+    dispatch(initializeBlogs())
   }, [])
 
 
@@ -36,69 +37,25 @@ const App = () => {
     setUser(null)
   }
 
-  const likeBlog = async (id) => {
-    const toLike = blogs.find(b => b.id === id )
-    const newObject = {
-      ...toLike,
-      likes: (toLike.likes||0) + 1,
-      user: toLike.user.id
-    }
-
-    const updatedBlog = await blogService.update(newObject.id, newObject)
-    const updatedBlogs = blogs.map(b => b.id === id ? updatedBlog : b).sort(byLikes)
-    setBlogs(updatedBlogs)
-  }
-
-
-  const removeBlog = async (id) => {
-    const toRemove = blogs.find(blog => blog.id === id)
-
-    const ok = window.confirm(`remove '${toRemove.title}' by ${toRemove.author}?`)
-
-    if(!ok) return
-
-    await blogService.remove(id)
-    const updatedBlogs = blogs.filter(blog => blog.id !== id).sort(byLikes)
-    setBlogs(updatedBlogs)
-  }
-
-
-
-
-  const renderBlogs = blogs.map((blog) => (
-    <Blog
-      likeBlog ={likeBlog}
-      removeBlog ={removeBlog}
-      key={blog.id}
-      blog={blog}
-      user={user}
-    />
-  ))
 
   return (
     <div>
 
-      <Notification  message={message}/>
+      <Notification  />
 
       {
         user === null ?
-          <Toggleable buttonLabel="login">
-            <LoginForm
-              setUser={setUser}
-              setErrorMessage={setMessage}
-            />
-          </Toggleable> :
+          <LoginForm setUser={setUser}/> :
           <div>
-
             <p>{user.name} logged-in</p>
             <button onClick={handleUserLogOut}>logout</button>
 
             <Toggleable buttonLabel="create blog">
-              <BlogForm  blogs={blogs}  setBlogs={setBlogs} setMessage={setMessage} />
+              <BlogForm  />
             </Toggleable>
 
             <h2>blogs</h2>
-            {renderBlogs}
+            <Blogs user={user} />
           </div>
       }
     </div>

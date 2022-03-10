@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 
-const Blog = ({user, blog, likeBlog, removeBlog}) => {
+const Blog = ({user, blog, likeToBlog, removeToBlog}) => {
   const [details, setDetails] = useState(false);
   const [buttonLabel, setButtonLabel] = useState('view');
   const showDetails = { display: details ? '' : 'none' };
@@ -30,9 +30,9 @@ const Blog = ({user, blog, likeBlog, removeBlog}) => {
         <p className='likes'>
           likes {blog.likes}
         </p>
-        <button onClick={() => likeBlog(blog.id)}>like</button>
+        <button onClick={() => likeToBlog(blog.id)}>like</button>
         <p className='author'>{blog.author}</p>
-        {myBlog && <button onClick={() => removeBlog(blog.id)}>remove</button>}
+        {myBlog && <button onClick={() => removeToBlog(blog.id)}>remove</button>}
       </div>
     </div>
   )

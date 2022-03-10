@@ -1,55 +1,44 @@
-import { useState } from "react";
-import blogService from '../services/blogs'
+import { useField } from "../hook";
+import { useDispatch } from 'react-redux'
+import { createBlog } from '../reducers/blogsReducer'
+import { notification } from "../reducers/notificationReducer";
 
-const BlogForm = ({ blogs, setBlogs, setMessage }) => {
 
-  const [title, setTitle] = useState("")
-  const [author, setAuthor] = useState("")
-  const [url, setUrl] = useState("")
+const BlogForm = () => {
+
+  const title = useField("text")
+  const author = useField("text")
+  const url = useField("text")
+
+  const dispatch =  useDispatch()
 
 
   const addBlog = async (e) => {
     e.preventDefault()
 
     const newBlog = {
-      title: title,
-      author: author,
-      url: url
+      title: title.inputField.value,
+      author: author.inputField.value,
+      url: url.inputField.value
     }
 
-    const responseBlog = await blogService.create(newBlog)
-    setBlogs(blogs.concat(responseBlog))
-    setMessage(`new blog ${newBlog.title} by ${newBlog.author} added!`)
-    setTimeout(() => { setMessage(null) }, 5000)
-    setTitle("")
-    setAuthor("")
-    setUrl("")
+    dispatch(createBlog(newBlog))
+    dispatch(notification(`new blog ${newBlog.title} by ${newBlog.author} added!`))
+    setTimeout(() => {dispatch(notification(null))}, 5000)
+    title.setValue("")
+    author.setValue("")
+    url.setValue("")
   }
 
 
   const blogForm = () => (
     <form onSubmit={addBlog}>
-                title:
-      <input
-        type="text"
-        value={title}
-        onChange={({ target }) => setTitle(target.value)}
-        required
-      />
-                author:
-      <input
-        type="text"
-        value={author}
-        onChange={({ target }) => setAuthor(target.value)}
-        required
-      />
-                url:
-      <input
-        type="text"
-        value={url}
-        onChange={({ target }) => setUrl(target.value)}
-        required
-      />
+      title: <input {...title.inputField} required />
+      <br />
+      author: <input {...author.inputField} required />
+      <br />
+      url: <input {...url.inputField} required />
+      <br />
       <button type="submit">create</button>
     </form>
   )
