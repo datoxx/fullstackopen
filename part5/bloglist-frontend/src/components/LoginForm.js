@@ -1,28 +1,37 @@
-import { useState } from "react";
+import { useField } from "../hook";
 import { useDispatch } from 'react-redux'
+
 import { notification } from "../reducers/notificationReducer";
+import { setUser } from "../reducers/userReducer";
 
 import loginService from '../services/login'
 import blogService from '../services/blogs'
 
-const LoginForm = ({ setUser }) => {
+import { useNavigate } from 'react-router-dom'
 
+const LoginForm = () => {
+
+  const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  const [username, setUsername] = useState("")
-  const [password, setPassword] = useState("")
+  const username = useField('text')
+  const password = useField("password")
 
   const handleLogin = async (e) => {
     e.preventDefault()
     try {
-      const responseAboutUser = await loginService.login({ username, password })
+      const responseAboutUser = await loginService.login({
+        username: username.inputField.value,
+        password : password.inputField.value
+      })
 
       window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(responseAboutUser))
 
       blogService.setToken(responseAboutUser.token)
-      setUser(responseAboutUser)
-      setUsername("")
-      setPassword("")
+      dispatch(setUser(responseAboutUser))
+      username.setValue("")
+      password.setValue("")
+      navigate('/blogs')
     } catch (exception){
       dispatch(notification('Wrong credentials'))
       setTimeout(() => {
@@ -36,21 +45,11 @@ const LoginForm = ({ setUser }) => {
       <div>
         <h2>Log in to application</h2>
             username
-        <input
-          type="text"
-          value={username}
-          name="Username"
-          onChange={({ target }) => setUsername(target.value)}
-        />
+        <input {...username.inputField} />
       </div>
       <div>
             password
-        <input
-          type="password"
-          value={password}
-          name="Password"
-          onChange={({ target }) => setPassword(target.value)}
-        />
+        <input {...password.inputField} />
       </div>
       <button type='submit'>login</button>
     </form>

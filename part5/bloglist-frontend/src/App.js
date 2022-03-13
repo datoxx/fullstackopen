@@ -1,12 +1,22 @@
-import React, { useState, useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { initializeBlogs } from './reducers/blogsReducer'
+import { initializeUsers } from './reducers/usersReducer'
+import { setUser } from './reducers/userReducer'
+import { Routes, Route, Navigate} from "react-router-dom"
+
+import Navigation from './components/Navigation'
 import Blogs from './components/Blogs'
-import Notification from './components/Notification'
+import Blog from './components/Blog'
+import Users from './components/Users'
+import User from './components/User'
 import LoginForm from './components/LoginForm'
 import BlogForm  from './components/BlogForm'
-import Toggleable from './components/Toggleable'
+import Notification from './components/Notification'
+//import Toggleable from './components/Toggleable'
 import blogService from './services/blogs'
+
+
 
 
 
@@ -14,11 +24,11 @@ import blogService from './services/blogs'
 const App = () => {
 
   const dispatch = useDispatch()
-  const [user, setUser] = useState(null)
-  //const byLikes = (b1, b2) => b2.likes - b1.likes
+  const {user} = useSelector(state => state)
 
   useEffect(() => {
     dispatch(initializeBlogs())
+    dispatch(initializeUsers())
   }, [])
 
 
@@ -26,38 +36,28 @@ const App = () => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser')
     if(loggedUserJSON) {
       const loggedUserJsObject = JSON.parse(loggedUserJSON)
-      setUser(loggedUserJsObject)
+      dispatch(setUser(loggedUserJsObject))
       blogService.setToken(loggedUserJsObject.token)
     }
   }, [])
 
 
-  const handleUserLogOut = () => {
-    window.localStorage.removeItem('loggedBlogAppUser')
-    setUser(null)
-  }
-
-
   return (
     <div>
+      <div>
+        <Navigation />
+        <h1>blogs</h1>
+        <Notification  />
+      </div>
 
-      <Notification  />
-
-      {
-        user === null ?
-          <LoginForm setUser={setUser}/> :
-          <div>
-            <p>{user.name} logged-in</p>
-            <button onClick={handleUserLogOut}>logout</button>
-
-            <Toggleable buttonLabel="create blog">
-              <BlogForm  />
-            </Toggleable>
-
-            <h2>blogs</h2>
-            <Blogs user={user} />
-          </div>
-      }
+      <Routes>
+        <Route path='/login' element={ <LoginForm  />} />
+        <Route path='/blogs/:id' element={<Blog />} />
+        <Route path='/blogs' element={<Blogs />} />
+        <Route path='/create' element={ <BlogForm  />} />
+        <Route path='/users/:id' element={ <User />}/>
+        <Route path='/users' element={user ? <Users /> : <Navigate replace to='/login' />} />
+      </Routes>
     </div>
   )
 }

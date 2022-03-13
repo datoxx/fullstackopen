@@ -1,11 +1,39 @@
-import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux'
+import { likeBlog, removeBlog } from '../reducers/blogsReducer'
+import { useParams, useNavigate } from "react-router-dom"
 
 
-const Blog = ({user, blog, likeToBlog, removeToBlog}) => {
-  const [details, setDetails] = useState(false);
-  const [buttonLabel, setButtonLabel] = useState('view');
-  const showDetails = { display: details ? '' : 'none' };
-  const myBlog = blog.user && user.username === blog.user.username
+const Blog = () => {
+
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const { id } = useParams()
+  const blog = useSelector(state => state.blogs.find(blog => blog.id === id ))
+
+  if(!blog) return null
+
+  const user = useSelector((state) => state.user)
+  const own = user && blog.user && user.username === blog.user.username
+
+  const likeToBlog = () => {
+    const newObject = {
+      ...blog,
+      likes: (blog.likes||0) + 1,
+      user: blog.user.id
+    }
+    dispatch(likeBlog(newObject))
+  }
+
+
+  const removeToBlog =  () => {
+
+    const ok = window.confirm(`remove '${blog.title}' by ${blog.author}?`)
+    if(!ok) return
+
+    dispatch(removeBlog(blog.id))
+    navigate('/blogs')
+  }
+
 
   const blogStyle = {
     paddingTop: 10,
@@ -16,24 +44,14 @@ const Blog = ({user, blog, likeToBlog, removeToBlog}) => {
   }
 
 
-  const toggleDetails = () => {
-    setDetails(!details)
-    setButtonLabel(details ? "view" : "hide" )
-  }
-
   return(
     <div style={blogStyle}>
-      <p className='title'>{blog.title}</p>
-      <button onClick={toggleDetails}>{buttonLabel}</button>
-      <div style={showDetails}>
-        <a className='url' href={blog.url}>{blog.url}</a>
-        <p className='likes'>
-          likes {blog.likes}
-        </p>
-        <button onClick={() => likeToBlog(blog.id)}>like</button>
-        <p className='author'>{blog.author}</p>
-        {myBlog && <button onClick={() => removeToBlog(blog.id)}>remove</button>}
-      </div>
+      <h2 className='title'>{blog.title}</h2>
+      <h2 className='author'>{blog.author}</h2>
+      <a className='url' href={blog.url}>{blog.url}</a>
+      <p className='likes'> likes {blog.likes}</p>
+      <button onClick={likeToBlog}>like</button>
+      {own && <button onClick={removeToBlog}>remove</button>}
     </div>
   )
 
