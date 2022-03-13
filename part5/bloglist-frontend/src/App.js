@@ -46,14 +46,14 @@ const App = () => {
     <div>
       <div>
         <Navigation />
-        <h1>blogs</h1>
+        <h1>blog app</h1>
         <Notification  />
       </div>
 
       <Routes>
+        <Route path='/' element={<Blogs />} />
         <Route path='/login' element={ <LoginForm  />} />
         <Route path='/blogs/:id' element={<Blog />} />
-        <Route path='/blogs' element={<Blogs />} />
         <Route path='/create' element={ <BlogForm  />} />
         <Route path='/users/:id' element={ <User />}/>
         <Route path='/users' element={user ? <Users /> : <Navigate replace to='/login' />} />

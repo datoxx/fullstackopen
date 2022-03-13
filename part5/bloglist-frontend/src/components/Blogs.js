@@ -7,6 +7,7 @@ const Blogs = () => {
 
   return (
     <div>
+      <h2>blogs</h2>
       <ul>
         {
           blogs.map((blog) => (

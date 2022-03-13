@@ -1,17 +1,21 @@
 import { useField } from "../hook";
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { createBlog } from '../reducers/blogsReducer'
-import { notification } from "../reducers/notificationReducer";
+import { sendNotification } from '../reducers/notificationReducer'
+import { useNavigate } from "react-router-dom"
 
 
 const BlogForm = () => {
+
+
+  const user = useSelector((state) => state.user)
 
   const title = useField("text")
   const author = useField("text")
   const url = useField("text")
 
   const dispatch =  useDispatch()
-
+  const navigate = useNavigate()
 
   const addBlog = async (e) => {
     e.preventDefault()
@@ -22,12 +26,17 @@ const BlogForm = () => {
       url: url.inputField.value
     }
 
+
+    if(!user) {
+      return  dispatch(sendNotification(`you need  to login for create blog`))
+    }
+
     dispatch(createBlog(newBlog))
-    dispatch(notification(`new blog ${newBlog.title} by ${newBlog.author} added!`))
-    setTimeout(() => {dispatch(notification(null))}, 5000)
+    dispatch(sendNotification(`new blog ${newBlog.title} by ${newBlog.author} added!`))
     title.setValue("")
     author.setValue("")
     url.setValue("")
+    navigate('/')
   }
 
 
@@ -45,7 +54,7 @@ const BlogForm = () => {
 
   return (
     <div>
-      <h3>Create Blog</h3>
+      <h2>Create Blog</h2>
       {blogForm()}
     </div>
   );

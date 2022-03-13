@@ -10,5 +10,23 @@ const blogsSlice =  createSlice({
   }
 })
 
+
+
+let timeId = null
+
+export const sendNotification = (message) => {
+  return dispatch => {
+    dispatch(notification(message))
+
+    if(timeId){
+      clearTimeout(timeId)
+    }
+
+    timeId = setTimeout(() => {
+      dispatch(notification(null))
+    }, 5000)
+  }
+}
+
 export const { notification } = blogsSlice.actions
 export default blogsSlice.reducer

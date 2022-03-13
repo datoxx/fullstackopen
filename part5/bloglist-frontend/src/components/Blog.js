@@ -9,10 +9,12 @@ const Blog = () => {
   const navigate = useNavigate()
   const { id } = useParams()
   const blog = useSelector(state => state.blogs.find(blog => blog.id === id ))
-
-  if(!blog) return null
-
   const user = useSelector((state) => state.user)
+
+  if(!blog) {
+    return null
+  }
+
   const own = user && blog.user && user.username === blog.user.username
 
   const likeToBlog = () => {
@@ -31,7 +33,7 @@ const Blog = () => {
     if(!ok) return
 
     dispatch(removeBlog(blog.id))
-    navigate('/blogs')
+    navigate('/')
   }
 
 

@@ -1,7 +1,7 @@
 import { useField } from "../hook";
 import { useDispatch } from 'react-redux'
 
-import { notification } from "../reducers/notificationReducer";
+import { sendNotification } from "../reducers/notificationReducer";
 import { setUser } from "../reducers/userReducer";
 
 import loginService from '../services/login'
@@ -31,12 +31,9 @@ const LoginForm = () => {
       dispatch(setUser(responseAboutUser))
       username.setValue("")
       password.setValue("")
-      navigate('/blogs')
+      navigate('/')
     } catch (exception){
-      dispatch(notification('Wrong credentials'))
-      setTimeout(() => {
-        dispatch(notification(null))
-      }, 5000)
+      dispatch(sendNotification('Wrong credentials'))
     }
   }
 

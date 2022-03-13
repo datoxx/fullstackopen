@@ -14,7 +14,7 @@ const Navigation = () => {
 
   return (
     <div>
-      <Link to='/blogs'>blogs</Link> <br />
+      <Link to='/'>blogs</Link> <br />
       <Link to='/users'>users</Link> <br />
       <Link to='/create'>create</Link> <br />
       {user
