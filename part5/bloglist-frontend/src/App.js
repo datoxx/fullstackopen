@@ -13,12 +13,9 @@ import User from './components/User'
 import LoginForm from './components/LoginForm'
 import BlogForm  from './components/BlogForm'
 import Notification from './components/Notification'
-//import Toggleable from './components/Toggleable'
 import blogService from './services/blogs'
 
-
-
-
+import { Container, Typography } from '@material-ui/core'
 
 
 const App = () => {
@@ -43,10 +40,18 @@ const App = () => {
 
 
   return (
-    <div>
+    <Container>
       <div>
         <Navigation />
-        <h1>blog app</h1>
+        <Typography
+          variant='h3'
+          component='h1'
+          color='primary'
+          align='center'
+          gutterBottom
+        >
+            blog app
+        </Typography>
         <Notification  />
       </div>
 
@@ -58,7 +63,7 @@ const App = () => {
         <Route path='/users/:id' element={ <User />}/>
         <Route path='/users' element={user ? <Users /> : <Navigate replace to='/login' />} />
       </Routes>
-    </div>
+    </Container>
   )
 }
 

@@ -1,7 +1,12 @@
-.message {
-    margin: 15px;
-    font-size: 25px;
-    padding: 20px;
-    border: 1px solid green;
-    color: green;
+@import url('https://fonts.googleapis.com/css2?family=Mukta:wght@200;300;400&family=Palanquin+Dark:wght@400;500&display=swap');
+
+body {
+    font-family: Mukta, Arial, Helvetica, sans-serif;
+    font-weight: 500;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }

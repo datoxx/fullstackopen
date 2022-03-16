@@ -1,6 +1,8 @@
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom';
 
+import { Typography } from '@material-ui/core'
+
 const Users = () => {
 
   const { users } = useSelector(state => state)
@@ -8,7 +10,16 @@ const Users = () => {
 
   return (
     <div>
-      <h2>Users</h2>
+      < Typography
+        variant='h5'
+        component='h2'
+        color='primary'
+        align='center'
+        gutterBottom
+      >
+        Users
+      </ Typography>
+
       <table>
         <tbody>
           <tr>

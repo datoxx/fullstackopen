@@ -3,9 +3,43 @@ import { useSelector, useDispatch } from 'react-redux'
 import { updateBlog, removeBlog } from '../reducers/blogsReducer'
 import { useParams, useNavigate } from "react-router-dom"
 
+import {Button, Typography, Card, CardHeader, CardContent,  makeStyles, IconButton} from '@material-ui/core'
+import TextField from '@material-ui/core/TextField'
+import Grid from '@material-ui/core/Grid'
+import Paper from '@material-ui/core/Paper'
+import { DeleteOutline } from '@material-ui/icons'
+
+const useStyles = makeStyles({
+  link:{
+    fontSize: 25,
+    marginTop: 20,
+    marginBottom: 20,
+    textDecoration: 'none',
+    color: 'secondary'
+  },
+  commentTitle: {
+    fontSize: 30,
+    marginTop: 60,
+    marginBottom: 20
+  },
+  like: {
+    fontSize: 20,
+    marginTop: 10,
+    marginBottom: 10
+  },
+  commentText: {
+    fontSize: 20,
+    padding: 10,
+    marginTop: 10,
+    marginBottom: 10
+  }
+})
+
+
 
 const Blog = () => {
 
+  const classes = useStyles()
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const comment = useField('text')
@@ -50,32 +84,54 @@ const Blog = () => {
     comment.setValue('')
   }
 
-
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: 'solid',
-    borderWidth: 1,
-    marginBottom: 5
-  }
-
-
   return(
-    <div style={blogStyle}>
-      <h2 className='title'>{blog.title}</h2>
-      <h2 className='author'>{blog.author}</h2>
-      <a className='url' href={blog.url}>{blog.url}</a>
-      <p className='likes'> likes {blog.likes}</p>
-      <button onClick={likeToBlog}>like</button>
-      {own && <button onClick={removeToBlog}>remove</button>}
-      <h3>comments</h3>
+    <div>
+      <Card elevation={3}>
+        <CardHeader
+          title={blog.title}
+          subheader={blog.author}
+          action={
+            own &&
+            <IconButton color='secondary' variant='contained'  onClick={removeToBlog}>
+              <DeleteOutline />
+            </IconButton>
+          }
+        />
+        <CardContent>
+          <a className={classes.link} href={blog.url}>{blog.url}</a>
+          <p className={classes.like}> likes: {blog.likes}</p>
+          <Button color='primary' variant='contained' onClick={likeToBlog}>like</Button>
+        </CardContent>
+      </Card>
+      < Typography
+        className={classes.commentTitle}
+        variant='h5'
+        component='h4'
+        color='primary'
+        gutterBottom
+      >
+        comments
+      </ Typography>
+
       <form onSubmit={addComment} >
-        <input {...comment.inputField}  required />
-        <button type='submit'>add comment</button>
-        <ul>
-          {blog.comments.map((comment, index) => <li key={index}>{comment}</li>)}
-        </ul>
+        <TextField
+          {...comment.inputField}
+          color="secondary"
+          variant="outlined"
+          required
+          fullWidth
+        />
+        <Button type='submit' variant="contained">add comment</Button>
+        <Grid container >
+          <Grid item xs={12}>
+            {blog.comments.map((comment, index) =>
+              <Paper key={index} className={classes.commentText}>
+                {comment}
+              </Paper>)}
+          </Grid>
+        </Grid>
       </form>
+
     </div>
   )
 

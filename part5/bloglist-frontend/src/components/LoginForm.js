@@ -9,6 +9,8 @@ import blogService from '../services/blogs'
 
 import { useNavigate } from 'react-router-dom'
 
+import { Typography } from '@material-ui/core'
+
 const LoginForm = () => {
 
   const navigate = useNavigate()
@@ -40,7 +42,16 @@ const LoginForm = () => {
   const loginForm = () => (
     <form onSubmit={handleLogin}>
       <div>
-        <h2>Log in to application</h2>
+        < Typography
+          variant='h5'
+          component='h2'
+          color='primary'
+          align='center'
+          gutterBottom
+        >
+        Log in to application
+        </ Typography>
+
             username
         <input {...username.inputField} />
       </div>
