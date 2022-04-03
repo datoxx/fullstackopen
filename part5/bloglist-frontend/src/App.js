@@ -15,7 +15,7 @@ import BlogForm  from './components/BlogForm'
 import Notification from './components/Notification'
 import blogService from './services/blogs'
 
-import { Container, Typography } from '@material-ui/core'
+import { Typography } from '@material-ui/core'
 
 
 const App = () => {
@@ -40,7 +40,7 @@ const App = () => {
 
 
   return (
-    <Container>
+    <div>
       <div>
         <Navigation />
         <Typography
@@ -54,7 +54,6 @@ const App = () => {
         </Typography>
         <Notification  />
       </div>
-
       <Routes>
         <Route path='/' element={<Blogs />} />
         <Route path='/login' element={ <LoginForm  />} />
@@ -63,7 +62,7 @@ const App = () => {
         <Route path='/users/:id' element={ <User />}/>
         <Route path='/users' element={user ? <Users /> : <Navigate replace to='/login' />} />
       </Routes>
-    </Container>
+    </div>
   )
 }
 

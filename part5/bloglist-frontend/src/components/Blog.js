@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { updateBlog, removeBlog } from '../reducers/blogsReducer'
 import { useParams, useNavigate } from "react-router-dom"
 
-import {Button, Typography, Card, CardHeader, CardContent,  makeStyles, IconButton} from '@material-ui/core'
+import {Container, Button, Typography, Card, CardHeader, CardContent,  makeStyles, IconButton} from '@material-ui/core'
 import TextField from '@material-ui/core/TextField'
 import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
@@ -85,7 +85,7 @@ const Blog = () => {
   }
 
   return(
-    <div>
+    <Container>
       <Card elevation={3}>
         <CardHeader
           title={blog.title}
@@ -132,7 +132,7 @@ const Blog = () => {
         </Grid>
       </form>
 
-    </div>
+    </Container>
   )
 
 }

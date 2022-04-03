@@ -1,7 +1,7 @@
 import { useSelector} from 'react-redux'
 import { Link } from 'react-router-dom'
 
-import { Typography, makeStyles } from '@material-ui/core'
+import {Container, Typography, makeStyles } from '@material-ui/core'
 import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
 
@@ -25,7 +25,7 @@ const Blogs = () => {
   const classes = useStyles()
 
   return (
-    <div>
+    <Container>
       < Typography
         variant='h5'
         component='h2'
@@ -50,7 +50,7 @@ const Blogs = () => {
             </Grid>
           ))}
       </Grid>
-    </div>
+    </Container>
   );
 }
 

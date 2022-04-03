@@ -9,10 +9,23 @@ import blogService from '../services/blogs'
 
 import { useNavigate } from 'react-router-dom'
 
-import { Typography } from '@material-ui/core'
+import { Typography, Button, makeStyles, TextField, Grid } from '@material-ui/core'
+
+
+const useStyles = makeStyles({
+  filed: {
+    marginTop: 20,
+    marginBottom: 20,
+    display: 'block',
+  },
+  form: {
+    minWidth: 350
+  }
+})
 
 const LoginForm = () => {
 
+  const classes = useStyles()
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
@@ -39,9 +52,10 @@ const LoginForm = () => {
     }
   }
 
-  const loginForm = () => (
-    <form onSubmit={handleLogin}>
-      <div>
+
+  return (
+    <Grid container justify='center' alignItems='center' direction='column'  >
+      <form onSubmit={handleLogin}  className={classes.form}>
         < Typography
           variant='h5'
           component='h2'
@@ -51,22 +65,33 @@ const LoginForm = () => {
         >
         Log in to application
         </ Typography>
-
-            username
-        <input {...username.inputField} />
-      </div>
-      <div>
-            password
-        <input {...password.inputField} />
-      </div>
-      <button type='submit'>login</button>
-    </form>
-  )
-
-  return (
-    <div>
-      {loginForm()}
-    </div>
+        <TextField
+          className={classes.filed}
+          {...username.inputField}
+          label='username'
+          color="secondary"
+          variant="outlined"
+          fullWidth
+          required
+        />
+        <TextField
+          className={classes.filed}
+          {...password.inputField}
+          label='password'
+          color="secondary"
+          variant="outlined"
+          fullWidth
+          required
+        />
+        <Button
+          type="submit"
+          color='secondary'
+          variant="contained"
+        >
+           login
+        </Button>
+      </form>
+    </Grid>
   );
 }
 

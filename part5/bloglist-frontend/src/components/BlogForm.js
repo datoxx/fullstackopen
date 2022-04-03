@@ -4,8 +4,9 @@ import { createBlog } from '../reducers/blogsReducer'
 import { sendNotification } from '../reducers/notificationReducer'
 import { useNavigate } from "react-router-dom"
 
-import { Typography, Button, makeStyles  } from '@material-ui/core'
+import { Container, Typography, Button, makeStyles  } from '@material-ui/core'
 import TextField from '@material-ui/core/TextField'
+
 
 const useStyles = makeStyles({
   filed: {
@@ -53,7 +54,7 @@ const BlogForm = () => {
 
 
   return (
-    <div>
+    <Container>
       < Typography
         variant='h5'
         component='h2'
@@ -99,7 +100,7 @@ const BlogForm = () => {
            create
         </Button>
       </form>
-    </div>
+    </Container>
   );
 }
 
