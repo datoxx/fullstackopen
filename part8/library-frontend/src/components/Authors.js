@@ -3,6 +3,7 @@ const Authors = ({show, authors}) => {
     return null
   }
 
+
   return (
     <div>
       <h2>authors</h2>
