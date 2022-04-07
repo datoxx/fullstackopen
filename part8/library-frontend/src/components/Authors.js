@@ -1,18 +1,26 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useMutation, useQuery } from '@apollo/client'
+import Select from 'react-select';
 
 import { all_Authors, change_birthYear } from '../queries'
 
 
 
-const Authors = ({show }) => {
+const Authors = ({ show, setError }) => {
   const response = useQuery(all_Authors)
   const [name, setName] = useState('')
   const [setBornTo, setSetBornTo] = useState('')
 
-  const [ changeBirthYear ] = useMutation(change_birthYear, {
+  const [ changeBirthYear, result ] = useMutation(change_birthYear, {
     refetchQueries: [{query: all_Authors}]
   })
+
+  useEffect(() => {
+    if(result.data && result.data.editAuthor === null) {
+      setError('author not found ')
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [result.data])
 
   if (!show) {
     return null
@@ -30,6 +38,7 @@ const Authors = ({show }) => {
     setSetBornTo('')
   }
 
+  
   return (
     <div>
       <h2>authors</h2>
@@ -51,19 +60,20 @@ const Authors = ({show }) => {
       </table>
 
       <h2>Set birthyear</h2>
-      <div>
+      <div style={{width: '200px'}}>
         <form onSubmit={handleBornYear}>
           name <br />
-          <input 
-          type="text" 
-            value={name} 
-            onChange={(e) => {setName(e.target.value)}}
+           <Select 
+            defaultValue={null} 
+            onChange={(e) => setName(e.value)}
+            options={response.data.allAuthors.map(a => ({value: a.name, label: a.name}))}
            />
           <br />
           born year <br />
           <input 
             type="number"
             value={setBornTo} onChange={(e) => {setSetBornTo(parseInt(e.target.value))} }
+            style={{width: '95%'}}
            />
            <br />
           <button type='submit'>set year</button>
