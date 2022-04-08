@@ -108,8 +108,8 @@ const resolvers = {
   },
   Author: {
     bookCount: async (root) => {
-     const books = await Book.find({})
-     return books.filter(b => b.author === root.name).length
+     const books = await Book.find({}).populate('author')
+     return books.filter(b => b.author.name === root.name).length
     }
   },
   Mutation:{
@@ -149,7 +149,7 @@ const resolvers = {
           invalidArgs: args
         })
       }
-      
+
       const author = await Author.findOne({ name: args.name})
       if(!author) {
         return null
