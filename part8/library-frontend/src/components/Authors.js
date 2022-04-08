@@ -12,7 +12,10 @@ const Authors = ({ show, setError }) => {
   const [setBornTo, setSetBornTo] = useState('')
 
   const [ changeBirthYear, result ] = useMutation(change_birthYear, {
-    refetchQueries: [{query: all_Authors}]
+    refetchQueries: [{query: all_Authors}],
+    onError: (error) => {
+      setError(error.graphQLErrors[0].message)
+    }
   })
 
   useEffect(() => {
