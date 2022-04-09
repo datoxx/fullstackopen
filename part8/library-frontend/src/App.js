@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useApolloClient } from '@apollo/client'
 
 import Authors from './components/Authors'
@@ -20,6 +20,13 @@ const App = () => {
     client.resetStore()
   }
 
+  useEffect(() => {
+    const savedToken = localStorage.getItem('user-token', token)
+    if (savedToken) {
+      setToken(savedToken)
+    }
+  }, [token])
+
   const notify = (message) =>{
     setErrorMessage(message)
     setTimeout(() => {
@@ -39,7 +46,7 @@ const App = () => {
       </div>
       <Notify errorMessage={errorMessage} />
 
-      <Authors show={page === 'authors'} setError={notify} />
+      <Authors show={page === 'authors'} setError={notify} token={token} />
 
       <Books show={page === 'books'}  />
 

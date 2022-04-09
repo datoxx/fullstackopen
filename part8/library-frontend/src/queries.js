@@ -20,6 +20,7 @@ query {
       born
       bookCount
     }
+    genres
   }
 }
 `

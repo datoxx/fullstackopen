@@ -6,7 +6,7 @@ import { all_Authors, change_birthYear } from '../queries'
 
 
 
-const Authors = ({ show, setError }) => {
+const Authors = ({ show, setError, token }) => {
   const response = useQuery(all_Authors)
   const [name, setName] = useState('')
   const [setBornTo, setSetBornTo] = useState('')
@@ -61,9 +61,9 @@ const Authors = ({ show, setError }) => {
           ))}
         </tbody>
       </table>
-
-      <h2>Set birthyear</h2>
+      {token &&
       <div style={{width: '200px'}}>
+        <h2>Set birthyear</h2>
         <form onSubmit={handleBornYear}>
           name <br />
            <Select 
@@ -81,7 +81,7 @@ const Authors = ({ show, setError }) => {
            <br />
           <button type='submit'>set year</button>
         </form>
-      </div>
+      </div>}
     </div>
   )
 }

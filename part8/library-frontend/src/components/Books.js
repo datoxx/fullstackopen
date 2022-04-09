@@ -1,9 +1,11 @@
 import React from 'react'
+import { useState } from 'react'
 import { useQuery } from '@apollo/client'
 
 import { all_Books } from '../queries'
 
 const Books = ({show}) => {
+  const [genre, setGenre] = useState('all')
   const response = useQuery(all_Books)
 
   if (!show) {
@@ -14,6 +16,12 @@ const Books = ({show}) => {
   if (response.loading) {
     return <div>loading...</div>
   }
+console.log(response.data.allBooks)
+
+  const display = genre === 'all' 
+    ? response.data.allBooks
+    : response.data.allBooks.filter(b => b.genres.indexOf(genre) !== -1) 
+
 
   return (
     <div>
@@ -26,7 +34,7 @@ const Books = ({show}) => {
             <th>author</th>
             <th>published</th>
           </tr>
-          {response.data.allBooks.map((a) => (
+          {display.map((a) => (
             <tr key={a.title}>
               <td>{a.title}</td>
               <td>{a.author.name}</td>
@@ -35,6 +43,13 @@ const Books = ({show}) => {
           ))}
         </tbody>
       </table>
+      <div>
+        <button onClick={() => setGenre('all')}>all</button>
+        <button onClick={() => setGenre('drama')}>drama</button>
+        <button onClick={() => setGenre('comedy')}>comedy</button>
+        <button onClick={() => setGenre('animation')}>animation</button>
+        <button onClick={() => setGenre('fantasy')}>fantasy</button>
+      </div>
     </div>
   )
 }
