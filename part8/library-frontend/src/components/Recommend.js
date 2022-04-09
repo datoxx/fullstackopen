@@ -9,18 +9,23 @@ import { all_books_with_genres, ME } from '../queries'
         const [getFavoriteBooks, result] = useLazyQuery(all_books_with_genres)
         const [favoriteBooks, setFavoriteBooks] = useState([])
 
+
+        useEffect(() => {
+            if(user.data) {
+                getFavoriteBooks({variables: {genre: user.data.me.favoriteGenre}})
+                console.log("b")
+            }
+            
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        }, [show])
+        
         useEffect(() => {
             if (result.data) {
               setFavoriteBooks(result.data.allBooks)
+              console.log("a")
             }
-          }, [setFavoriteBooks, result])
+          }, [ result])
 
-        useEffect(() =>{
-            if(user.data) {
-                getFavoriteBooks({variables: {genre: user.data.me.favoriteGenre}})
-            }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        }, [getFavoriteBooks])
 
 
         

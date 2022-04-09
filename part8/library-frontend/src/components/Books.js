@@ -16,7 +16,7 @@ const Books = ({show}) => {
   if (response.loading) {
     return <div>loading...</div>
   }
-console.log(response.data.allBooks)
+
 
   const display = genre === 'all' 
     ? response.data.allBooks
