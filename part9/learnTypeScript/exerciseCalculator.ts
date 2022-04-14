@@ -1,27 +1,27 @@
-interface Result {
-    periodLength: number,
-    trainingDays: number,
-    success: boolean,
-    rating: number,
-    ratingDescription: string,
-    target: number,
-    average: number
-  }
-  
-  interface Input {
-      exercise: number[],
-      target: number
-  }
+interface Input {
+    exercise: number[],
+    target: number
+}
   
   const parseArgs = (args: Array<string>): Input => {
       if (args.length < 5) throw new Error('Not enough arguments');
-      const arguments: Array<number> = args.slice(2).map((ar) => Number(ar))
-      if (arguments) {
-          return {
-              exercise: arguments.slice(1),
-              target: Number(arguments[0])
-          };
+      if (args.slice(2).every(e => !isNaN(Number(e)))) {
+        const target = Number(args[2]);
+        const  exercise = args.slice(3).map(a => Number(a));
+        return { target,  exercise };
+      } else {
+        throw new Error('Provided values were not numbers!');
       }
+    };
+
+    interface Result {
+        periodLength: number,
+        trainingDays: number,
+        success: boolean,
+        rating: number,
+        ratingDescription: string,
+        target: number,
+        average: number
     }
   
   const calc = (arg: Array<number>, t: number): Result => {
@@ -52,7 +52,15 @@ interface Result {
           throw new Error('wrong credential');
       }
   }
+
+
+  if (require.main === module) {
+      try{
+        const { exercise, target } =  parseArgs(process.argv);
+        console.log(calc(exercise, target))
+      } catch (e) {
+        console.log(e.message);
+      }
+  }
   
-  const { exercise, target } =  parseArgs(process.argv);
-  
-  console.log(calc(exercise, target))
+  export default calc;

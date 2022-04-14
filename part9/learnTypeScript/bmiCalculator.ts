@@ -1,7 +1,7 @@
-interface MultiplyValues {
-    weight: number;
-    height: number;
-}
+  interface MultiplyValues {
+      weight: number
+      height: number
+  }
 
 
 const parseArguments = (args: Array<string>): MultiplyValues => {
@@ -12,25 +12,33 @@ const parseArguments = (args: Array<string>): MultiplyValues => {
       return {
          weight: Number(args[2]),
          height: Number(args[3])
-      }
+      };
     } else {
       throw new Error('Provided values were not numbers!');
     }
-  }
+  };
 
 const calculator = (k: number, h: number) => {
-   const bmi: number = k/(h*h)
+   const bmi: number = k/(h*h);
    if(  bmi < 25) {
-        console.log("Normal")
+        return "Normal";
    } else if(25 < bmi  && bmi < 29) {
-        console.log('Overweight')
+        return 'Overweight';
    } else if(bmi >= 30) {
-        console.log("Obese")
+        return "Obese";
    } else {
        throw new Error('wrong credential');
    }
+};
+
+if(require.main === module) {
+  try {
+    const { weight, height } = parseArguments(process.argv);
+    const result = calculator(weight, height);
+    console.log(result);
+  } catch (e: any) {
+    console.log(e.message);
+  }
 }
 
-const { weight, height } = parseArguments(process.argv);
-
-calculator(weight, height)
+export default calculator;
