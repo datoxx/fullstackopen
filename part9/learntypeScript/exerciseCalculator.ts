@@ -8,6 +8,23 @@ interface Result {
   average: number
 }
 
+interface Input {
+    exercise: number[],
+    target: number
+}
+
+const parseArgs = (args: Array<string>): Input => {
+    if (args.length < 5) throw new Error('Not enough arguments');
+    const arguments: Array<number> = args.slice(2).map((ar) => Number(ar))
+    if (arguments) {
+        return {
+            exercise: arguments.slice(1),
+            target: Number(arguments[0])
+        };
+    }
+  }
+
+
 const calc = (arg: Array<number>, t: number): Result => {
     const averageHour = arg.reduce((p, c) => p + c)/arg.length
     const trainingDays = arg.reduce((acc, day) => (day !== 0 ? acc + 1 : acc),0);
@@ -37,8 +54,6 @@ const calc = (arg: Array<number>, t: number): Result => {
     }
 }
 
+const { exercise, target } =  parseArgs(process.argv);
 
-const hours: Array<number> = [3, 1, 2, 4, 2, 1, 1];
-const target: number = 2;
-
-console.log(calc(hours, target))
+console.log(calc(exercise, target))
