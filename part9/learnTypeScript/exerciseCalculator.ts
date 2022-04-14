@@ -24,7 +24,6 @@ interface Result {
       }
     }
   
-  
   const calc = (arg: Array<number>, t: number): Result => {
       const averageHour = arg.reduce((p, c) => p + c)/arg.length
       const trainingDays = arg.reduce((acc, day) => (day !== 0 ? acc + 1 : acc),0);
