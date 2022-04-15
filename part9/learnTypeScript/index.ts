@@ -1,9 +1,12 @@
 import express from 'express';
-const app = express();
+import morgan from 'morgan';
 
 import calculator from './bmiCalculator';
 import calc from './exerciseCalculator';
 
+const app = express();
+app.use(express.json());
+app.use(morgan('tiny'));
 
 app.get('/hello', (_req, res) => {
     res.send('hello full stack');
@@ -20,18 +23,15 @@ app.get('/bmi', (req, res) => {
     }
 
     const bmi = calculator(weight, height);
-    try{
-        res.send({weight, height, bmi});
-    } catch (e) {
-        res.json({ 'error': e.message });
-    }
+
+    res.send({weight, height, bmi});
+    
     
 });
 
 app.post('/exercises', (req, res) => {
-    const body = req.body;
-    const exercise: Array<number> = body.daily_exercises;
-    const target: number = body.target;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const {exercise, target} =  req.body;
 
     
   if (!target || !exercise) {
@@ -39,6 +39,7 @@ app.post('/exercises', (req, res) => {
   }
 
   try {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     res.json(calc(exercise, target));
   } catch (_) {
     res.json({ 'error': 'malformatted parameters' });
