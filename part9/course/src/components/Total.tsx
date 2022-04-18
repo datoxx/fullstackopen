@@ -1,15 +1,17 @@
 // @flow 
 import * as React from 'react';
+import { CoursePart } from '../type'
+
 type Props = {
-    course: {name: string, exerciseCount: number}[]
+    courses: CoursePart[]
 };
 const Total = (props: Props) => {
     return (
         <div>
-            <p>
+            <h4>
                 Number of exercises{" "}
-                {props.course.reduce((carry, part) => carry + part.exerciseCount, 0)}
-            </p>
+                {props.courses.reduce((carry, part) => carry + part.exerciseCount, 0)}
+            </h4>
         </div>
     );
 };
